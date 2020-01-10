@@ -1,0 +1,57 @@
+<h1>Select your vehicle</h1>
+
+<form class="example-form" novalidate [formGroup]="form" (ngSubmit)="onSubmit()">
+  <div>
+    <mat-form-field class="example-full-width">
+      <input type="text" placeholder="Manufacturers" aria-label="Manufacturers" matInput
+             formControlName="manufacturersControl"
+             [matAutocomplete]="auto">
+      <mat-autocomplete #auto="matAutocomplete"
+                        [displayWith]="displayManufacturerFn"
+                        (optionSelected)='onManufacturerSelected($event.option.value)'>
+        <mat-option *ngFor="let option of filteredManOptions | async" [value]="option">
+          {{ displayManufacturerFn(option) }}
+        </mat-option>
+      </mat-autocomplete>
+    </mat-form-field>
+    <div class="error"
+         *ngIf="form.get('manufacturersControl').hasError('required') && form.get('manufacturersControl').touched">
+      Manufacturer is required
+    </div>
+  </div>
+  <div>
+    <mat-form-field class="example-full-width">
+      <input type="text" placeholder="Makes" aria-label="Makes" matInput
+             formControlName="makesControl"
+             [matAutocomplete]="auto1">
+      <mat-autocomplete #auto1="matAutocomplete"
+                        [displayWith]="displayMakesFn"
+                        (optionSelected)='onMakerSelected($event.option.value)'>
+        <mat-option *ngFor="let option of filteredMakesOptions | async" [value]="option">
+          {{ displayMakesFn(option) }}
+        </mat-option>
+      </mat-autocomplete>
+    </mat-form-field>
+    <div class="error" *ngIf="form.get('makesControl').hasError('required') && form.get('makesControl').touched">
+      Make is required
+    </div>
+  </div>
+  <div>
+    <mat-form-field class="example-full-width">
+      <input type="text" placeholder="Models" aria-label="Models" matInput
+             formControlName="modelsControl"
+             [matAutocomplete]="auto2">
+      <mat-autocomplete #auto2="matAutocomplete"
+                        [displayWith]="displayModelsFn">
+        <mat-option *ngFor="let option of filteredModelsOptions | async" [value]="option">
+          {{ displayModelsFn(option) }}
+        </mat-option>
+      </mat-autocomplete>
+    </mat-form-field>
+    <div class="error" *ngIf="form.get('modelsControl').hasError('required') && form.get('modelsControl').touched">
+      Model is required
+    </div>
+  </div>
+  <button mat-raised-button color="primary" type="submit" [disabled]="(!manOptions || form.invalid)">Submit</button>
+
+</form>
