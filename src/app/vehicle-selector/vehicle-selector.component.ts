@@ -2,10 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 import { VehicleService } from '../vehicle.service';
-import {Make, Manufacturer, Model} from '../interfaces';
-import {MatSnackBar} from '@angular/material/snack-bar';
+import { Make, Manufacturer, Model } from '../interfaces';
 
 @Component({
   selector: 'app-vehicle-selector',
@@ -23,7 +23,7 @@ export class VehicleSelectorComponent implements OnInit {
   filteredModelsOptions: Observable<Model[]>;
 
   constructor(
-    private vehicleSelectorService: VehicleService,
+    private vehicleService: VehicleService,
     private snackBar: MatSnackBar
   ) {}
 
@@ -48,21 +48,17 @@ export class VehicleSelectorComponent implements OnInit {
   }
 
   onManufacturerSelected(man: Manufacturer) {
-    // this.form.get('makesControl').reset();
     // this.form.get('makesControl').disable();
-    // this.form.get('modelsControl').reset();
     // this.form.get('modelsControl').disable();
     this.getMakesForManufacturer(man.Mfr_ID);
   }
 
   onMakerSelected(make: Make) {
-    // this.form.get('modelsControl').reset();
     // this.form.get('modelsControl').disable();
     this.getModelsForMake(make.Make_ID);
   }
 
   onSubmit() {
-    console.log(this.form.value, this.form.valid);
     this.openSnackBar('Thank you for submitting the data!', 'close');
   }
 
@@ -83,9 +79,9 @@ export class VehicleSelectorComponent implements OnInit {
   }
 
   private getManufacturers() {
-    this.vehicleSelectorService.getManufacturers()
+    this.vehicleService.getManufacturers()
       .subscribe( manufacturers => {
-        this.manOptions = manufacturers;
+        this.manOptions = manufacturers.sort((a, b) => (a.Mfr_Name.toLowerCase() > b.Mfr_Name.toLowerCase()) ? 1 : -1);
         this.form.get('manufacturersControl').enable();
 
         this.filteredManOptions = this.form.get('manufacturersControl').valueChanges
@@ -98,9 +94,9 @@ export class VehicleSelectorComponent implements OnInit {
   }
 
   private getMakesForManufacturer(manufacturerId: number) {
-    this.vehicleSelectorService.getMakesForManufacturer(manufacturerId)
+    this.vehicleService.getMakesForManufacturer(manufacturerId)
       .subscribe( makes => {
-        this.makesOptions = makes;
+        this.makesOptions = makes.sort((a, b) => (a.Make_Name.toLowerCase() > b.Make_Name.toLowerCase()) ? 1 : -1);
         this.form.get('makesControl').enable();
 
         this.filteredMakesOptions = this.form.get('makesControl').valueChanges
@@ -113,9 +109,9 @@ export class VehicleSelectorComponent implements OnInit {
   }
 
   private getModelsForMake(makeId: number) {
-    this.vehicleSelectorService.getModelsForMake(makeId)
+    this.vehicleService.getModelsForMake(makeId)
       .subscribe( models => {
-        this.modelsOptions = models;
+        this.modelsOptions = models.sort((a, b) => (a.Model_Name.toLowerCase() > b.Model_Name.toLowerCase()) ? 1 : -1);
         this.form.get('modelsControl').enable();
 
         this.filteredModelsOptions = this.form.get('modelsControl').valueChanges

@@ -5,8 +5,6 @@ import { HttpClientModule } from '@angular/common/http';
 import { MatInputModule, MatButtonModule, MatSelectModule } from '@angular/material';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
-import { MatCardModule } from '@angular/material/card';
-
 
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -27,8 +25,7 @@ import { VehicleSelectorComponent } from './vehicle-selector/vehicle-selector.co
     MatButtonModule,
     MatSelectModule,
     MatAutocompleteModule,
-    MatSnackBarModule,
-    MatCardModule
+    MatSnackBarModule
   ],
   providers: [],
   bootstrap: [AppComponent]
