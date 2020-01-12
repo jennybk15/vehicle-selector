@@ -5,7 +5,8 @@
     <mat-form-field class="example-full-width">
       <input type="text" placeholder="Manufacturers" aria-label="Manufacturers" matInput
              formControlName="manufacturersControl"
-             [matAutocomplete]="auto">
+             [matAutocomplete]="auto"
+             (blur)="onManBlur()">
       <mat-autocomplete #auto="matAutocomplete"
                         [displayWith]="displayManufacturerFn"
                         (optionSelected)='onManufacturerSelected($event.option.value)'>
@@ -23,7 +24,8 @@
     <mat-form-field class="example-full-width">
       <input type="text" placeholder="Makes" aria-label="Makes" matInput
              formControlName="makesControl"
-             [matAutocomplete]="auto1">
+             [matAutocomplete]="auto1"
+             (blur)="onMakesBlur()">
       <mat-autocomplete #auto1="matAutocomplete"
                         [displayWith]="displayMakesFn"
                         (optionSelected)='onMakerSelected($event.option.value)'>
